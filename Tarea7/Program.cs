@@ -180,7 +180,7 @@ class Program
         {
             Console.WriteLine();
             Console.WriteLine("===== TAREA 7: CLASES Y ARCHIVOS =====");
-            Console.WriteLine("Estudiante: Johana Candida Granado Huarcaya");
+            Console.WriteLine("Estudiante: Tu Nombre Completo");
             Console.WriteLine("1. Cuenta bancaria");
             Console.WriteLine("2. Prestamo de libros");
             Console.WriteLine("3. Agenda de contactos con archivo");
@@ -199,9 +199,9 @@ class Program
             switch (opcion)
             {
                 case 1: Ejercicio1(); break;
-                case 2: Ejercicio2(); break; 
-                case 3: Ejercicio3(); break; 
-                case 4: Ejercicio4(); break; 
+                case 2: Ejercicio2(); break;
+                case 3: Ejercicio3(); break;
+                case 4: Ejercicio4(); break;
                 case 0: Console.WriteLine("Hasta luego"); break;
                 default: Console.WriteLine("Opcion no valida"); break;
             }
@@ -241,12 +241,50 @@ class Program
 
         cuenta.MostrarResumen();
     }
+
     // Ejercicio 2: Prestamo de libros
     static void Ejercicio2()
     {
-        // escribe aqui tu codigo
-    }
+        List<Libro> libros = new List<Libro>();
+        libros.Add(new Libro("El Principito"));
+        libros.Add(new Libro("Don Quijote"));
+        libros.Add(new Libro("Rayuela"));
 
+        for (int i = 0; i < 2; i++)
+        {
+            Console.Write("Titulo del libro a prestar: ");
+            string buscado = Console.ReadLine();
+
+            Libro encontrado = null;
+            foreach (Libro l in libros)
+            {
+                if (l.Titulo.ToLower() == buscado.ToLower())
+                {
+                    encontrado = l;
+                }
+            }
+
+            if (encontrado == null)
+            {
+                Console.WriteLine("No existe el libro " + buscado);
+            }
+            else if (encontrado.Prestar())
+            {
+                Console.WriteLine("Prestado: " + encontrado.Titulo);
+            }
+            else
+            {
+                Console.WriteLine(encontrado.Titulo + " ya esta prestado");
+            }
+        }
+
+        Console.WriteLine("Estado de la biblioteca:");
+        foreach (Libro l in libros)
+        {
+            string estado = l.Disponible ? "Disponible" : "Prestado";
+            Console.WriteLine(l.Titulo + " - " + estado);
+        }
+    }
     // Ejercicio 3: Agenda de contactos con archivo
     static void Ejercicio3()
     {
