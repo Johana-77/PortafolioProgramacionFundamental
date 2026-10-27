@@ -285,15 +285,82 @@ class Program
             Console.WriteLine(l.Titulo + " - " + estado);
         }
     }
+
     // Ejercicio 3: Agenda de contactos con archivo
     static void Ejercicio3()
     {
-        // escribe aqui tu codigo
+        int cantidad = LeerEntero("Cantidad de contactos: ");
+        List<Contacto> contactos = new List<Contacto>();
+
+        for (int i = 0; i < cantidad; i++)
+        {
+            Console.Write("Nombre: ");
+            string nombre = Console.ReadLine();
+            Console.Write("Telefono: ");
+            string telefono = Console.ReadLine();
+            contactos.Add(new Contacto(nombre, telefono));
+        }
+
+        List<string> lineas = new List<string>();
+        foreach (Contacto c in contactos)
+        {
+            lineas.Add(c.ALinea());
+        }
+        File.WriteAllLines("contactos.txt", lineas);
+        Console.WriteLine("Contactos guardados: " + contactos.Count);
+
+        Console.WriteLine("Leyendo contactos.txt:");
+        foreach (string linea in File.ReadAllLines("contactos.txt"))
+        {
+            string[] partes = linea.Split(';');
+            Console.WriteLine(partes[0] + " - Tel: " + partes[1]);
+        }
     }
 
-    // Ejercicio 4: Mi propia clase
+    // Ejercicio 4: Mi propia clase (Plato)
     static void Ejercicio4()
     {
-        // escribe aqui tu codigo
+        int cantidad = LeerEntero("Cantidad de platos: ");
+        List<Plato> platos = new List<Plato>();
+
+        for (int i = 0; i < cantidad; i++)
+        {
+            Console.Write("Nombre del plato: ");
+            string nombre = Console.ReadLine();
+            int precio = LeerEntero("Precio (Bs): ");
+            int porciones = LeerEntero("Porciones disponibles: ");
+
+            try
+            {
+                platos.Add(new Plato(nombre, precio, porciones));
+            }
+            catch (ArgumentOutOfRangeException)   // el set de Precio lanzo el error
+            {
+                Console.WriteLine("Error: el precio no puede ser negativo. Plato no registrado");
+            }
+        }
+
+        // Probamos el metodo Servir con el primer plato (si existe)
+        if (platos.Count > 0)
+        {
+            int pedido = LeerEntero("Porciones a servir del primer plato: ");
+            platos[0].Servir(pedido);
+        }
+
+        List<string> lineas = new List<string>();
+        foreach (Plato p in platos)
+        {
+            lineas.Add(p.ALinea());
+        }
+        File.WriteAllLines("platos.txt", lineas);
+        Console.WriteLine("Platos guardados: " + platos.Count);
+
+        Console.WriteLine("Leyendo platos.txt:");
+        foreach (string linea in File.ReadAllLines("platos.txt"))
+        {
+            string[] partes = linea.Split(';');
+            Console.WriteLine(partes[0] + " - " + partes[1] + " Bs - Porciones: " + partes[2]);
+        }
     }
 }
+
