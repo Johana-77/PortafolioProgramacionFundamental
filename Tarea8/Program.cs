@@ -118,6 +118,113 @@ class CuentaCorriente : Cuenta
         return true;
     }
 }
+// ===================== EJERCICIO 3: PERSONAJES DE UN VIDEOJUEGO =====================
+class Personaje
+{
+    protected string nombre;
+    protected int vida;
+
+    public Personaje(string nombre, int vida)
+    {
+        this.nombre = nombre;
+        this.vida = vida;
+    }
+
+    public virtual string Clase()
+    {
+        return "Personaje";
+    }
+
+    public virtual string Habilidad()
+    {
+        return "Golpe basico";
+    }
+
+    public virtual int CalcularDanio()
+    {
+        return 10;
+    }
+
+    public void Mostrar()
+    {
+        Console.WriteLine(Clase() + " " + nombre + " (vida " + vida + "): " + Habilidad() + ", danio " + CalcularDanio());
+    }
+}
+
+class Guerrero : Personaje
+{
+    private int fuerza;
+
+    public Guerrero(string nombre, int vida, int fuerza) : base(nombre, vida)
+    {
+        this.fuerza = fuerza;
+    }
+
+    public override string Clase()
+    {
+        return "Guerrero";
+    }
+
+    public override string Habilidad()
+    {
+        return "Golpe de espada";
+    }
+
+    public override int CalcularDanio()
+    {
+        return 10 + fuerza * 2;
+    }
+}
+
+class Mago : Personaje
+{
+    private int nivelMagia;
+
+    public Mago(string nombre, int vida, int nivelMagia) : base(nombre, vida)
+    {
+        this.nivelMagia = nivelMagia;
+    }
+
+    public override string Clase()
+    {
+        return "Mago";
+    }
+
+    public override string Habilidad()
+    {
+        return "Bola de fuego";
+    }
+
+    public override int CalcularDanio()
+    {
+        return 10 + nivelMagia * 5;
+    }
+}
+
+class Arquero : Personaje
+{
+    private int flechas;
+
+    public Arquero(string nombre, int vida, int flechas) : base(nombre, vida)
+    {
+        this.flechas = flechas;
+    }
+
+    public override string Clase()
+    {
+        return "Arquero";
+    }
+
+    public override string Habilidad()
+    {
+        return "Lluvia de flechas";
+    }
+
+    public override int CalcularDanio()
+    {
+        return 10 + flechas * 3;
+    }
+}
 
 class Program
 {
@@ -213,9 +320,47 @@ class Program
         corriente.IntentarRetiro(monto);
     }
 
-    // Ejercicio 3: Mi propia jerarquia
+    // Ejercicio 3: Mi propia jerarquia (Personajes de un videojuego)
     static void Ejercicio3()
     {
-        // escribe aqui tu codigo
+        List<Personaje> personajes = new List<Personaje>();
+
+        Console.Write("Cuantos personajes: ");
+        int n = int.Parse(Console.ReadLine());
+
+        for (int i = 1; i <= n; i++)
+        {
+            Console.Write("Personaje " + i + " - clase (1 Guerrero, 2 Mago, 3 Arquero): ");
+            int clase = int.Parse(Console.ReadLine());
+            Console.Write("Nombre: ");
+            string nombre = Console.ReadLine();
+            Console.Write("Vida: ");
+            int vida = int.Parse(Console.ReadLine());
+
+            if (clase == 1)
+            {
+                Console.Write("Fuerza: ");
+                personajes.Add(new Guerrero(nombre, vida, int.Parse(Console.ReadLine())));
+            }
+            else if (clase == 2)
+            {
+                Console.Write("Nivel de magia: ");
+                personajes.Add(new Mago(nombre, vida, int.Parse(Console.ReadLine())));
+            }
+            else if (clase == 3)
+            {
+                Console.Write("Flechas: ");
+                personajes.Add(new Arquero(nombre, vida, int.Parse(Console.ReadLine())));
+            }
+            else
+            {
+                Console.WriteLine("Clase no valida, se omite este personaje");
+            }
+        }
+
+        foreach (Personaje p in personajes)
+        {
+            p.Mostrar();
+        }
     }
 }
